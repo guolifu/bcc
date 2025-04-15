@@ -179,7 +179,18 @@ class BPF {
   StatusTuple detach_perf_event_raw(void* perf_event_attr);
   std::string get_syscall_fnname(const std::string& name);
 
-  BPFTable get_table(const std::string& name) {
+	const BPFModule *get_mod() {
+		return bpf_module_.get();
+	}
+
+	/*php add*/
+	size_t get_num_functions();
+
+	/*php add*/
+	const char *get_function_name(size_t id);
+
+
+	BPFTable get_table(const std::string& name) {
     TableStorage::iterator it;
     if (bpf_module_->table_storage().Find(Path({bpf_module_->id(), name}), it))
       return BPFTable(it->second);

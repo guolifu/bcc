@@ -671,6 +671,13 @@ int BPF::poll_perf_buffer(const std::string& name, int timeout_ms) {
   return it->second->poll(timeout_ms);
 }
 
+size_t BPF:: get_num_functions() {return bpf_module_->num_functions();}
+
+const char *BPF::get_function_name(size_t id) {
+  if (!bpf_module_) return nullptr;
+  return bpf_module_->function_name(id);
+}
+
 StatusTuple BPF::load_func(const std::string& func_name, bpf_prog_type type,
                            int& fd, unsigned flags, bpf_attach_type expected_attach_type) {
   if (funcs_.find(func_name) != funcs_.end()) {
